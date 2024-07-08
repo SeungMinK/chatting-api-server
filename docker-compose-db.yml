@@ -7,7 +7,7 @@ services:
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root} # 환경 변수 없을 경우 기본값으로 적용
-      MYSQL_MULTIPLE_DATABASES: user,chatting
+      MYSQL_MULTIPLE_DATABASES: chatting
       MYSQL_USER: ${MYSQL_USER:-tester} # 환경 변수 없을 경우 기본값으로 적용
       MYSQL_PASSWORD: ${MYSQL_PASSWORD:-test1234#} # 환경 변수 없을 경우 기본값으로 적용
     ports:
