@@ -2,6 +2,7 @@ import { NestFactory } from "@nestjs/core";
 import { ChattingServerModule } from "./chatting-server.module";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import { json, urlencoded } from "express";
+import { RedisIoAdapter } from "./service/ws-gateay/adapters/redis-io.adapter";
 
 async function bootstrap() {
   const app = await NestFactory.create(ChattingServerModule);
@@ -24,6 +25,13 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup("api", app, document);
   // app.useGlobalFilters(new AllExceptionsFilter())
+
+  const redisIoAdapter = new RedisIoAdapter(app);
+  await redisIoAdapter.connectToRedis(app);
+  app.useWebSocketAdapter(redisIoAdapter);
+
+  await app.startAllMicroservices();
+  console.log(`Ws gateway microservices are running`);
 
   await app.listen(3000);
 

@@ -6,6 +6,7 @@ import { UserModule } from "./service/user/user.module";
 import { AuthModule } from "./service/auth/auth.module";
 import { UserEntity } from "./entity/user.entity";
 import { TypeOrmModule } from "@nestjs/typeorm";
+import { WsGatewayModule } from "./service/ws-gateay/ws-gateway.module";
 
 @Module({
   imports: [
@@ -57,6 +58,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
     HealthModule,
     AuthModule,
     UserModule,
+    WsGatewayModule,
   ],
 })
 export class ChattingServerModule {}

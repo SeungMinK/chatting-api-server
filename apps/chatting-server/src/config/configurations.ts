@@ -21,4 +21,8 @@ export default () => ({
       idleTimeout: parseInt(process.env.idleTimeout) || 7210000,
     },
   },
+  redis: {
+    host: process.env.REDIS_HOST || "localhost",
+    port: process.env.REDIS_PORT || 6379,
+  },
 });
