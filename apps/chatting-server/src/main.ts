@@ -11,10 +11,11 @@ async function bootstrap() {
   app.use(urlencoded({ extended: true, limit: "1mb" }));
 
   app.enableCors({
-    origin: "*", //
+    origin: "*",
   });
 
   const config = new DocumentBuilder()
+    .addBearerAuth({ type: "http", scheme: "bearer", bearerFormat: "JWT" }) // Add this line
     .setTitle("API Server")
     .setDescription("The Chatting API description")
     .setVersion("1.0")
