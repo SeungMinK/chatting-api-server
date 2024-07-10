@@ -4,5 +4,16 @@
   "sourceRoot": "src",
   "compilerOptions": {
     "deleteOutDir": true
+  },
+  "projects": {
+    "chatting-server": {
+      "type": "application",
+      "root": "apps/chatting-server",
+      "entryFile": "main",
+      "sourceRoot": "apps/chatting-server/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/chatting-server/tsconfig.app.json"
+      }
+    }
   }
 }
