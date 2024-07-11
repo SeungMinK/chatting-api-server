@@ -36,6 +36,7 @@
     "@nestjs/typeorm": "^10.0.2",
     "@nestjs/websockets": "^10.3.10",
     "@socket.io/redis-adapter": "^8.3.0",
+    "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "mysql2": "^3.3.1",
     "node-redis": "^0.1.7",
