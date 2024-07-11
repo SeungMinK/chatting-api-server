@@ -13,7 +13,7 @@ import { HttpStatus } from "@nestjs/common";
   cors: {
     origin: "*",
   },
-  transports: ["websocket"],
+  transports: ["websocket", "polling"],
 })
 export class WsGateway
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
@@ -25,18 +25,21 @@ export class WsGateway
 
   @SubscribeMessage("join")
   join(client: Socket | any) {
-    client.join(client.user.id);
+    console.log("client_connect!!", client.user?.id);
+    client.join(client.user?.id);
     this.server
-      .to(client.user.id)
-      .emit("join", { statusCode: HttpStatus.OK, message: ["success"] });
+      .to(client.user?.id)
+      .emit("connect", { statusCode: HttpStatus.OK, message: ["success"] });
   }
 
   @SubscribeMessage("leave")
   leave(client: Socket | any) {
+    console.log("LEAVE");
     client.leave(client.user.id);
   }
 
   handleConnection(client: any, ...args: any[]) {
+    console.log(client);
     console.log("Connected: ", client.id);
   }
 
