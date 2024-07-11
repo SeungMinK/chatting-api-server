@@ -12,6 +12,7 @@
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:chatting-server": "nest start chatting-server",
+    "start:chatting-server:dev": "nest start chatting-server:watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "start:db:service": "docker-compose -f docker-compose-db.yml up -d",
