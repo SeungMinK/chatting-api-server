@@ -39,7 +39,6 @@ export class WsGateway
   }
 
   handleConnection(client: any, ...args: any[]) {
-    console.log(client);
     console.log("Connected: ", client.id);
   }
 
