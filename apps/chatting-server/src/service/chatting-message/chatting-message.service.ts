@@ -49,11 +49,13 @@ export class ChattingMessageService {
   async findChattingMessage(
     request: FindChattingMessageRequestDto,
   ): Promise<FindChattingMessageResponseDto[]> {
+    console.log(request, "findChattingMessage");
     let existChattingMessage = await this.chattingMessageRepository.find({
       where: { chattingRoom: { id: request.chattingRoomId } },
       relations: { user: true },
     });
 
+    console.log(existChattingMessage, "findChattingMessage");
     return plainToInstance(
       FindChattingMessageResponseDto,
       existChattingMessage,
