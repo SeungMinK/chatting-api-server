@@ -7,5 +7,5 @@ export class FindOneChattingRoomUserRequestDto {
   })
   @IsString()
   @IsNotEmpty()
-  id: string;
+  chattingRoomId: string;
 }

@@ -44,29 +44,28 @@ export class ChattingRoomUserController {
     @Body() request: CreateChattingRoomUserRequestDto,
     @AuthUser() user: User,
   ): Promise<CreateChattingRoomUserResponseDto> {
-    console.log(request, "createUser");
     return this.chattingRoomService.createChattingRoomUser({
       ...request,
       requestUserId: user.id,
     });
   }
 
-  @Get("chatting-room-users/:chattingRoomId")
+  @Get("chatting-room-users")
   @ApiOperation({
     summary: "채팅방 입장 인원 조회",
   })
   @ApiOkResponse({
+    isArray: true,
     type: FindOneChattingRoomUserResponseDto,
     description: "application/json.",
   })
   @Header("Content-Type", "application/json")
-  async findOneChattingRoomUser(
+  async findChattingRoomUser(
     @Param("chattingRoomId") chattingRoomId: string,
     @AuthUser() user: User,
-  ): Promise<FindOneChattingRoomUserResponseDto> {
-    console.log("HI", user);
-    return this.chattingRoomService.findOneChattingRoomUser({
-      id: chattingRoomId,
+  ): Promise<FindOneChattingRoomUserResponseDto[]> {
+    return this.chattingRoomService.findChattingRoomUser({
+      chattingRoomId: chattingRoomId,
     });
   }
 

@@ -19,16 +19,17 @@ export class ChattingRoomUserService {
     private readonly chattingRoomService: ChattingRoomService,
   ) {}
 
-  async findOneChattingRoomUser(
+  async findChattingRoomUser(
     request: FindOneChattingRoomUserRequestDto,
-  ): Promise<FindOneChattingRoomUserResponseDto> {
-    console.log(request, "findOneChattingRoomUser");
-    let existChattingRoomUser = await this.chattingRoomUserRepository.findOne({
-      where: { id: request.id },
+  ): Promise<FindOneChattingRoomUserResponseDto[]> {
+    console.log(request, "findChattingRoomUser");
+    let existChattingRoomUser = await this.chattingRoomUserRepository.find({
+      where: { chattingRoom: { id: request.chattingRoomId } },
+      relations: { user: true, chattingRoom: true },
     });
     console.log(
       existChattingRoomUser,
-      "findOneChattingRoomUser",
+      "findChattingRoomUser",
       "existChattingRoomUser",
     );
     if (!existChattingRoomUser) {
@@ -36,7 +37,7 @@ export class ChattingRoomUserService {
         {
           code: "NOT_EXIST_CHATTING_ROOM_USER",
           status: HttpStatus.NOT_FOUND,
-          message: `생성 되지 않은 채팅방(id : ${request.id})`,
+          message: `생성 되지 않은 채팅방(id : ${request.chattingRoomId})`,
         },
         HttpStatus.NOT_FOUND,
       );

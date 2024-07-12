@@ -34,9 +34,6 @@ export class ChattingMessageEntity {
   )
   createdAt: Date;
 
-  @Column({ length: 255, default: "", comment: "채팅방 생성자" })
-  createdBy: string;
-
   @UpdateDateColumn()
   @Transform(({ value }) =>
     typeof value !== "string" ? value?.toISOString() : value,
