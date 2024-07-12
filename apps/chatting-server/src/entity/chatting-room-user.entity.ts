@@ -1,5 +1,4 @@
 import {
-  Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
@@ -16,10 +15,13 @@ export class ChattingRoomUserEntity {
   @PrimaryGeneratedColumn("increment", { type: "bigint", unsigned: true })
   id: string;
 
-  @ManyToOne(() => ChattingRoomEntity, (chattingRoom) => chattingRoom.users)
+  @ManyToOne(
+    () => ChattingRoomEntity,
+    (chattingRoom) => chattingRoom.chattingRoomUsers,
+  )
   chattingRoom: ChattingRoomEntity;
 
-  @ManyToOne(() => UserEntity, (user) => user.chattingRooms)
+  @ManyToOne(() => UserEntity, (user) => user.chattingRoomUsers)
   user: UserEntity;
 
   @CreateDateColumn()
@@ -27,9 +29,6 @@ export class ChattingRoomUserEntity {
     typeof value !== "string" ? value?.toISOString() : value,
   )
   createdAt: Date;
-
-  @Column({ length: 255, default: "", comment: "채팅방 생성자" })
-  createdBy: string;
 
   @UpdateDateColumn()
   @Transform(({ value }) =>

@@ -28,7 +28,7 @@ export class ChattingRoomEntity {
     () => ChattingRoomUserEntity,
     (chattingRoomUser) => chattingRoomUser.chattingRoom,
   )
-  users: ChattingRoomUserEntity[];
+  chattingRoomUsers: ChattingRoomUserEntity[];
 
   @OneToMany(
     () => ChattingMessageEntity,
