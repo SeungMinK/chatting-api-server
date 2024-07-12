@@ -86,11 +86,12 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="chat-room-description">${room.description}</div>
         <div class="chat-room-createdAt">${new Date(room.createdAt).toLocaleString()}</div>
       `;
-      roomElement.addEventListener("click", () => {
+      roomElement.addEventListener("click", async () => {
         if (selectedChattingRoomId !== room.id) {
           selectedChattingRoomId = room.id;
           chatRoomTitle.textContent = room.title;
           joinChannel();
+          await loadChatHistory();
         }
       });
       chattingRoomsDiv.appendChild(roomElement);
@@ -98,6 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   async function loadChatHistory() {
+    console.log("##########DOING###########1");
     const response = await fetch(
       `http://localhost:3000/chatting-messages?limit=25&page=1&order=createdAt&chattingRoomId=${selectedChattingRoomId}`,
       {
@@ -108,8 +110,9 @@ document.addEventListener("DOMContentLoaded", () => {
         },
       },
     );
-
+    console.log("##########DOING###########2");
     if (response.ok) {
+      console.log("##########DOING###########3");
       const messages = await response.json();
       messagesDiv.innerHTML = ""; // Clear current messages
       messages.forEach((message) => {
@@ -119,8 +122,10 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       });
     } else {
+      console.log("##########DOING###########4");
       alert("Failed to load chat history");
     }
+    console.log("##########DOING###########5");
   }
 
   function connectWebSocket() {
@@ -156,7 +161,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "leave",
         { chattingRoomId: selectedChattingRoomId, userId, username },
         (response) => {
-          if (response.statusCode === 200) {
+          if (response && response.statusCode === 200) {
             console.log("Left the previous room");
           }
         },
@@ -165,12 +170,7 @@ document.addEventListener("DOMContentLoaded", () => {
       socket.emit(
         "join",
         { chattingRoomId: selectedChattingRoomId, userId, username },
-        (response) => {
-          if (response.statusCode === 200) {
-            console.log("Joined successfully");
-            loadChatHistory();
-          }
-        },
+        (response) => {},
       );
     }
   }
