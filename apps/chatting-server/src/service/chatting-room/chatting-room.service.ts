@@ -24,9 +24,12 @@ export class ChattingRoomService {
     request: FindOneChattingRoomRequestDto,
   ): Promise<FindOneChattingRoomResponseDto> {
     console.log(request, "findOneChattingRoom");
+
     let existChattingRoom = await this.chattingRoomRepository.findOne({
       where: { id: request.id },
+      relations: { chattingRoomUsers: { user: true } },
     });
+
     console.log(existChattingRoom, "findOneChattingRoom", "existChattingRoom");
     if (!existChattingRoom) {
       throw new HttpException(

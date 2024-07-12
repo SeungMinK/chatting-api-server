@@ -11,6 +11,7 @@ import { ChattingMessageEntity } from "./entity/chatting-message.entity";
 import { ChattingRoomEntity } from "./entity/chatting-room.entity";
 import { ChattingRoomUserEntity } from "./entity/chatting-room-user.entity";
 import { ChattingRoomModule } from "./service/chatting-room/chatting-room.module";
+import { ChattingRoomUserModule } from "./service/chatting-room-user/chatting-room-user.module";
 
 @Module({
   imports: [
@@ -69,6 +70,7 @@ import { ChattingRoomModule } from "./service/chatting-room/chatting-room.module
     UserModule,
     WsGatewayModule,
     ChattingRoomModule,
+    ChattingRoomUserModule,
   ],
 })
 export class ChattingServerModule {}

@@ -38,7 +38,7 @@ import { User } from "../user/user.controller";
 export class ChattingRoomController {
   constructor(private chattingRoomService: ChattingRoomService) {}
 
-  @Post("chattingRooms")
+  @Post("chatting-rooms")
   @ApiOperation({
     summary: "채팅방 생성",
   })
