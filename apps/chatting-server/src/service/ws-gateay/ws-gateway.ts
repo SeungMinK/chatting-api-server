@@ -65,19 +65,15 @@ export class WsGateway
     }
 
     // Client 연결
-    client.join(
-      `chattingRoomId:${payload.chattingRoomId}:userId:${payload.userId}`,
-    );
+    client.join(payload.chattingRoomId);
     currentUserRooms.add(payload.chattingRoomId);
 
-    this.server
-      .to(`chattingRoomId:${payload.chattingRoomId}:userId:${payload.userId}`)
-      .emit("user-joined", {
-        statusCode: HttpStatus.OK,
-        message: ["success"],
-        userId: payload.userId,
-        username: payload.username,
-      });
+    this.server.to(payload.chattingRoomId).emit("user-joined", {
+      statusCode: HttpStatus.OK,
+      message: ["success"],
+      userId: payload.userId,
+      username: payload.username,
+    });
 
     // DB에는 비동기로 생성
     this.chattingRoomUserService
@@ -103,12 +99,10 @@ export class WsGateway
       }
     }
 
-    this.server
-      .to(`chattingRoomId:${payload.chattingRoomId}:userId:${payload.userId}`)
-      .emit("user-left", {
-        userId: payload.userId,
-        username: payload.username,
-      });
+    this.server.to(payload.chattingRoomId).emit("user-left", {
+      userId: payload.userId,
+      username: payload.username,
+    });
 
     this.chattingRoomUserService
       .removeChattingRoomUser({
