@@ -22,6 +22,7 @@ export class ChattingRoomEntity {
   @Column({ length: 255, default: "", comment: "채팅방 설명" })
   description: string;
 
+  // 실시간 갱신 데이터, DB에 저장 X
   numActiveUserCount: number; // "최근 30분간 접속자 수"
 
   @OneToMany(
@@ -35,6 +36,9 @@ export class ChattingRoomEntity {
     (chattingMessage) => chattingMessage.chattingRoom,
   )
   chattingMessages: ChattingMessageEntity[];
+
+  // 실시간 갱신 데이터, DB에 저장 X
+  lastChattingMessage: ChattingMessageEntity;
 
   @CreateDateColumn()
   @Transform(({ value }) =>
