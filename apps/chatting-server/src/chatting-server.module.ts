@@ -7,6 +7,12 @@ import { AuthModule } from "./service/auth/auth.module";
 import { UserEntity } from "./entity/user.entity";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { WsGatewayModule } from "./service/ws-gateay/ws-gateway.module";
+import { ChattingMessageEntity } from "./entity/chatting-message.entity";
+import { ChattingRoomEntity } from "./entity/chatting-room.entity";
+import { ChattingRoomUserEntity } from "./entity/chatting-room-user.entity";
+import { ChattingRoomModule } from "./service/chatting-room/chatting-room.module";
+import { ChattingRoomUserModule } from "./service/chatting-room-user/chatting-room-user.module";
+import { ChattingMessageModule } from "./service/chatting-message/chatting-message.module";
 
 @Module({
   imports: [
@@ -48,10 +54,15 @@ import { WsGatewayModule } from "./service/ws-gateay/ws-gateway.module";
           ],
           canRetry: true,
         },
-        entities: [UserEntity],
+        entities: [
+          UserEntity,
+          ChattingMessageEntity,
+          ChattingRoomEntity,
+          ChattingRoomUserEntity,
+        ],
         timezone: configService.get("database.timezone"),
         synchronize: true,
-        logging: true,
+        logging: false,
       }),
       inject: [ConfigService],
     }),
@@ -59,6 +70,9 @@ import { WsGatewayModule } from "./service/ws-gateay/ws-gateway.module";
     AuthModule,
     UserModule,
     WsGatewayModule,
+    ChattingRoomModule,
+    ChattingRoomUserModule,
+    ChattingMessageModule,
   ],
 })
 export class ChattingServerModule {}
