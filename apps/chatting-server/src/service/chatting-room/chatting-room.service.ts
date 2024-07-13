@@ -48,7 +48,30 @@ export class ChattingRoomService {
   async findChattingRoom(
     request: FindChattingRoomRequestDto,
   ): Promise<FindChattingRoomResponseDto[]> {
-    let existChattingRoom = await this.chattingRoomRepository.find({});
+    console.log(request, "findChattingRoom");
+    const createdAtCondition = new Date(Date.now() - 30 * 60 * 1000); // 30분 전 시간
+
+    const queryBuilder = this.chattingRoomRepository
+      .createQueryBuilder("chatting_rooms")
+      .leftJoinAndSelect(
+        "chatting_rooms.chattingRoomUsers",
+        "chattingRoomUsers",
+        `chattingRoomUsers.createdAt >= :createdAtCondition`,
+        { createdAtCondition: createdAtCondition },
+      )
+      .leftJoinAndSelect("chatting_rooms.chattingMessages", "chattingMessages");
+
+    let existChattingRoom = await queryBuilder.getMany();
+
+    // 조회 시점을 기준으로 30분간 활동 유저수 Count
+    existChattingRoom.forEach((room) => {
+      room.numActiveUserCount = room.chattingRoomUsers.length;
+    });
+
+    // numActiveUserCount 가 높은 순서대로 정렬
+    existChattingRoom = existChattingRoom.sort(
+      (a, b) => b.numActiveUserCount - a.numActiveUserCount,
+    );
 
     return plainToInstance(FindChattingRoomResponseDto, existChattingRoom);
   }
