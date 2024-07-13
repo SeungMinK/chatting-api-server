@@ -66,6 +66,8 @@ export class ChattingRoomService {
     // 조회 시점을 기준으로 30분간 활동 유저수 Count
     existChattingRoom.forEach((room) => {
       room.numActiveUserCount = room.chattingRoomUsers.length;
+      room.lastChattingMessage =
+        room.chattingMessages?.[room.chattingMessages.length - 1] || null;
     });
 
     // numActiveUserCount 가 높은 순서대로 정렬

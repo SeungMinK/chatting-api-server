@@ -79,9 +79,20 @@ button:hover {
     background-color: #e9e9e9;
 }
 
+.chat-room-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .chat-room-title {
     font-size: 16px;
     font-weight: bold;
+}
+
+.chat-room-activeUsers {
+    font-size: 14px;
+    color: #007bff;
 }
 
 .chat-room-description {
@@ -92,6 +103,25 @@ button:hover {
 .chat-room-createdAt {
     font-size: 12px;
     color: #999;
+}
+
+.chat-room-lastMessage {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #333;
+    background-color: #eef;
+    padding: 8px;
+    border-radius: 4px;
+}
+
+.last-message-content {
+    font-weight: bold;
+}
+
+.last-message-time {
+    font-size: 12px;
+    color: #666;
+    margin-top: 4px;
 }
 
 .login-container {

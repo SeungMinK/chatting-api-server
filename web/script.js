@@ -81,10 +81,22 @@ document.addEventListener("DOMContentLoaded", () => {
     rooms.forEach((room) => {
       const roomElement = document.createElement("div");
       roomElement.classList.add("chat-room-item");
+      const lastMessageContent =
+        room.lastChattingMessage?.content ?? "아직 진행중인 대화가 없습니다.";
+      const lastMessageTime = room.lastChattingMessage
+        ? new Date(room.lastChattingMessage.createdAt).toLocaleString()
+        : "";
       roomElement.innerHTML = `
-        <div class="chat-room-title">${room.title}</div>
+        <div class="chat-room-header">
+          <div class="chat-room-title">${room.title}</div>
+          <div class="chat-room-activeUsers">실시간 접속자수: ${room.numActiveUserCount}</div>
+        </div>
         <div class="chat-room-description">${room.description}</div>
         <div class="chat-room-createdAt">${new Date(room.createdAt).toLocaleString()}</div>
+        <div class="chat-room-lastMessage">
+          <div class="last-message-content">${lastMessageContent}</div>
+          <div class="last-message-time">${lastMessageTime}</div>
+        </div>
       `;
       roomElement.addEventListener("click", async () => {
         if (selectedChattingRoomId !== room.id) {
