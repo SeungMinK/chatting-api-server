@@ -62,7 +62,7 @@ import { ChattingMessageModule } from "./service/chatting-message/chatting-messa
         ],
         timezone: configService.get("database.timezone"),
         synchronize: true,
-        logging: true,
+        logging: false,
       }),
       inject: [ConfigService],
     }),
