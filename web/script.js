@@ -99,7 +99,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   async function loadChatHistory() {
-    console.log("##########DOING###########1");
     const response = await fetch(
       `http://localhost:3000/chatting-messages?limit=25&page=1&order=createdAt&chattingRoomId=${selectedChattingRoomId}`,
       {
@@ -110,9 +109,8 @@ document.addEventListener("DOMContentLoaded", () => {
         },
       },
     );
-    console.log("##########DOING###########2");
+
     if (response.ok) {
-      console.log("##########DOING###########3");
       const messages = await response.json();
       messagesDiv.innerHTML = ""; // Clear current messages
       messages.forEach((message) => {
@@ -122,10 +120,8 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       });
     } else {
-      console.log("##########DOING###########4");
       alert("Failed to load chat history");
     }
-    console.log("##########DOING###########5");
   }
 
   function connectWebSocket() {
