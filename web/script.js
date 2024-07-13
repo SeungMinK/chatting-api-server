@@ -15,6 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let userId;
   let username;
   let selectedChattingRoomId;
+  let roomsData = []; // Keep track of rooms data
 
   loginForm.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -49,26 +50,13 @@ document.addEventListener("DOMContentLoaded", () => {
         username = profileData.username;
 
         // Fetch chatting rooms
-        const roomsResponse = await fetch(
-          "http://localhost:3000/chatting-rooms?limit=25&page=1&order=createdAt",
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-              Accept: "application/json",
-            },
-          },
-        );
+        await fetchChattingRooms();
 
-        if (roomsResponse.ok) {
-          const roomsData = await roomsResponse.json();
-          displayChattingRooms(roomsData);
+        // Hide login form
+        loginContainer.style.display = "none";
 
-          // Hide login form
-          loginContainer.style.display = "none";
-        } else {
-          alert("Failed to fetch chatting rooms");
-        }
+        // Connect WebSocket and join login event
+        connectWebSocket();
       } else {
         alert("Failed to fetch profile");
       }
@@ -77,7 +65,28 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  async function fetchChattingRooms() {
+    const roomsResponse = await fetch(
+      "http://localhost:3000/chatting-rooms?limit=25&page=1&order=createdAt",
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          Accept: "application/json",
+        },
+      },
+    );
+
+    if (roomsResponse.ok) {
+      roomsData = await roomsResponse.json();
+      displayChattingRooms(roomsData);
+    } else {
+      alert("Failed to fetch chatting rooms");
+    }
+  }
+
   function displayChattingRooms(rooms) {
+    chattingRoomsDiv.innerHTML = ""; // Clear current rooms
     rooms.forEach((room) => {
       const roomElement = document.createElement("div");
       roomElement.classList.add("chat-room-item");
@@ -89,11 +98,11 @@ document.addEventListener("DOMContentLoaded", () => {
       roomElement.innerHTML = `
         <div class="chat-room-header">
           <div class="chat-room-title">${room.title}</div>
-          <div class="chat-room-activeUsers">실시간 접속자수: ${room.numActiveUserCount}</div>
+          <div class="chat-room-activeUsers" data-room-id="${room.id}">실시간 접속자수: ${room.numActiveUserCount}</div>
         </div>
         <div class="chat-room-description">${room.description}</div>
         <div class="chat-room-createdAt">${new Date(room.createdAt).toLocaleString()}</div>
-        <div class="chat-room-lastMessage">
+        <div class="chat-room-lastMessage" data-room-id="${room.id}">
           <div class="last-message-content">${lastMessageContent}</div>
           <div class="last-message-time">${lastMessageTime}</div>
         </div>
@@ -147,10 +156,31 @@ document.addEventListener("DOMContentLoaded", () => {
 
       socket.on("connect", () => {
         console.log("WebSocket connected");
+
+        // Emit login event
+        socket.emit("login", { userId, username }, (response) => {
+          if (response.statusCode === 200) {
+            console.log("Logged in successfully");
+          }
+        });
       });
 
       socket.on("receive-message", (message) => {
         displayMessage(message);
+      });
+
+      socket.on("last-message", (message) => {
+        updateLastMessage(message);
+      });
+
+      socket.on("user-joined", (data) => {
+        console.log("User joined: ", data);
+        updateActiveUserCount(data.chattingRoomId, data.numActiveUserCount);
+      });
+
+      socket.on("user-left", (data) => {
+        console.log("User left: ", data);
+        fetchChattingRooms();
       });
 
       socket.on("error", (error) => {
@@ -180,6 +210,27 @@ document.addEventListener("DOMContentLoaded", () => {
         { chattingRoomId: selectedChattingRoomId, userId, username },
         (response) => {},
       );
+    }
+  }
+
+  function updateActiveUserCount(chattingRoomId, activeUserCount) {
+    const activeUserElement = document.querySelector(
+      `.chat-room-activeUsers[data-room-id="${chattingRoomId}"]`,
+    );
+    if (activeUserElement) {
+      activeUserElement.textContent = `실시간 접속자수: ${activeUserCount}`;
+    }
+  }
+
+  function updateLastMessage(message) {
+    const lastMessageElement = document.querySelector(
+      `.chat-room-lastMessage[data-room-id="${message.chattingRoomId}"]`,
+    );
+    if (lastMessageElement) {
+      lastMessageElement.querySelector(".last-message-content").textContent =
+        message.message;
+      lastMessageElement.querySelector(".last-message-time").textContent =
+        new Date(message.createdAt).toLocaleString();
     }
   }
 

@@ -25,10 +25,19 @@ export class ChattingRoomService {
   ): Promise<FindOneChattingRoomResponseDto> {
     console.log(request, "findOneChattingRoom");
 
-    let existChattingRoom = await this.chattingRoomRepository.findOne({
+    const existChattingRoom = await this.chattingRoomRepository.findOne({
       where: { id: request.id },
       relations: { chattingRoomUsers: { user: true } },
     });
+
+    const createdAtCondition = new Date(Date.now() - 30 * 60 * 1000); // 30분 전 시간
+
+    existChattingRoom.chattingRoomUsers.filter(
+      (value) => value.createdAt > createdAtCondition,
+    );
+
+    existChattingRoom.numActiveUserCount =
+      existChattingRoom.chattingRoomUsers.length;
 
     console.log(existChattingRoom, "findOneChattingRoom", "existChattingRoom");
     if (!existChattingRoom) {

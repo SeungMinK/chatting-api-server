@@ -10,6 +10,7 @@ import { Server, Socket } from "socket.io";
 import { HttpStatus } from "@nestjs/common";
 import { ChattingMessageService } from "../chatting-message/chatting-message.service";
 import { ChattingRoomUserService } from "../chatting-room-user/chatting-room-user.service";
+import { ChattingRoomService } from "../chatting-room/chatting-room.service";
 
 interface UserRoomMap {
   [userId: string]: Set<string>;
@@ -31,10 +32,24 @@ export class WsGateway
   constructor(
     private chattingMessageService: ChattingMessageService,
     private chattingRoomUserService: ChattingRoomUserService,
+    private chattingRoomService: ChattingRoomService,
   ) {}
 
+  @SubscribeMessage("login")
+  login(client: Socket, payload: { userId: string; username: string }) {
+    // Login 성공 시 소켓 서버에 연결
+    client.join(payload.userId); // Client 연결
+
+    this.server.to(payload.userId).emit("login", {
+      statusCode: HttpStatus.OK,
+      message: ["success"],
+      userId: payload.userId,
+      username: payload.username,
+    });
+  }
+
   @SubscribeMessage("join")
-  join(
+  async join(
     client: Socket,
     payload: { chattingRoomId: string; userId: string; username: string },
   ) {
@@ -68,15 +83,30 @@ export class WsGateway
     client.join(payload.chattingRoomId);
     currentUserRooms.add(payload.chattingRoomId);
 
-    this.server.to(payload.chattingRoomId).emit("user-joined", {
+    const existChattingRoom =
+      await this.chattingRoomService.findOneChattingRoom({
+        id: payload.chattingRoomId,
+      });
+
+    // this.server.emit("user-joined-all", {
+    //   statusCode: HttpStatus.OK,
+    //   message: ["success"],
+    //   chattingRoomId: payload.chattingRoomId,
+    //   numActiveUserCount: existChattingRoom.numActiveUserCount ?? 0,
+    // });
+
+    // 로그인 한 전체 유저에게 chattingRoomId 별 chattingRoomCount emit
+    this.server.emit("user-joined", {
       statusCode: HttpStatus.OK,
       message: ["success"],
       userId: payload.userId,
       username: payload.username,
+      chattingRoomId: payload.chattingRoomId,
+      numActiveUserCount: existChattingRoom.numActiveUserCount ?? 0,
     });
 
-    // DB에는 비동기로 생성
-    this.chattingRoomUserService
+    // DB에는 유저 접속 정보 생성 ( 비동기로 생성할 경우, 간혈적으로 정보가 누락되는 경우가 있음), Join은 Message에 비해 호출 빈도가 적음
+    await this.chattingRoomUserService
       .createChattingRoomUser({
         requestUserId: payload.userId,
         chattingRoomId: payload.chattingRoomId,
@@ -124,6 +154,9 @@ export class WsGateway
       username: string;
     },
   ) {
+    // 전체 유저에게, 채팅방마다 마지막 메시지 변경 Emit
+    this.server.emit("last-message", payload);
+
     this.server.to(payload.chattingRoomId).emit("receive-message", payload);
 
     this.chattingMessageService

@@ -1,4 +1,4 @@
-import { IsDateString, IsString } from "class-validator";
+import { IsDateString, IsNumber, IsString } from "class-validator";
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 
 export class ChattingRoomDto {
@@ -37,6 +37,12 @@ export class ChattingRoomDto {
   })
   @IsString()
   lastChattingMessage?: string;
+
+  @ApiProperty({
+    example: 1,
+  })
+  @IsNumber()
+  numActiveUserCount: number; // "최근 30분간 접속자 수"
 
   @ApiProperty({
     example: "USER",
