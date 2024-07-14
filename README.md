@@ -101,17 +101,17 @@ jest --config ./apps/chatting-server/test/jest-e2e.json apps/chatting-server/tes
 
 ## Step.1 User 서비스 생성 및 ws-gateway Service 생성
 
-- https://github.com/SeungMinK/chatting-api-server/issues/4
-- https://github.com/SeungMinK/chatting-api-server/issues/5
+- [user 서비스 생성](https://github.com/SeungMinK/chatting-api-server/issues/4)
+- [ws-gateway 생성](https://github.com/SeungMinK/chatting-api-server/issues/5)
 
 ## Step.2 채팅방 생성 및 채팅방 Join, 메시지 실시간 소통
 
-- https://github.com/SeungMinK/chatting-api-server/issues/9
+- [메시지 실시간 소통 작성 이슈](https://github.com/SeungMinK/chatting-api-server/issues/9)
 
 
 # Step3. 테스트 케이스 작성
 
-- https://github.com/SeungMinK/chatting-api-server/issues/11
+- [테스트 케이스 작성 이슈](https://github.com/SeungMinK/chatting-api-server/issues/11)
 
 # Docs
 
