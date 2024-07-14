@@ -1,4 +1,4 @@
-import { Body, Controller, Header, Post } from "@nestjs/common";
+import { Body, Controller, Header, Post, ValidationPipe } from "@nestjs/common";
 import { AuthService } from "./auth.service";
 import { ApiCreatedResponse, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { AuthLoginRequestDto } from "./dto/auth-login-request.dto";
@@ -20,7 +20,8 @@ export class AuthController {
   })
   @Header("Content-Type", "application/json")
   async login(
-    @Body() request: AuthLoginRequestDto,
+    @Body(new ValidationPipe({ transform: true, whitelist: true }))
+    request: AuthLoginRequestDto,
   ): Promise<AuthLoginResponseDto> {
     return this.authService.login(request);
   }

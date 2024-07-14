@@ -41,7 +41,8 @@ export class ChattingMessageController {
     description: "application/json.",
   })
   async createChattingMessage(
-    @Body() request: CreateChattingMessageRequestDto,
+    @Body(new ValidationPipe({ transform: true, whitelist: true }))
+    request: CreateChattingMessageRequestDto,
     @AuthUser() user: User,
   ): Promise<CreateChattingMessageResponseDto> {
     console.log(request, "createUser");

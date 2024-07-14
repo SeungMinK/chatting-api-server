@@ -7,6 +7,7 @@ import {
   Post,
   Request,
   UseGuards,
+  ValidationPipe,
 } from "@nestjs/common";
 import { CreateUserResponseDto } from "./dto/create-user-response.dto";
 import { CreateUserRequestDto } from "./dto/create-user-request.dto.st";
@@ -53,7 +54,8 @@ export class UserController {
     description: "application/json.",
   })
   async createUser(
-    @Body() request: CreateUserRequestDto,
+    @Body(new ValidationPipe({ transform: true, whitelist: true }))
+    request: CreateUserRequestDto,
   ): Promise<CreateUserResponseDto> {
     console.log(request, "createUser");
     return this.userService.createUser(request);

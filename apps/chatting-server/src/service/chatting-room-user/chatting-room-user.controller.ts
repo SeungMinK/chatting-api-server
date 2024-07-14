@@ -9,6 +9,7 @@ import {
   Param,
   Post,
   UseGuards,
+  ValidationPipe,
 } from "@nestjs/common";
 import { CreateChattingRoomUserResponseDto } from "./dto/create-chatting-room-user-response.dto";
 import { FindOneChattingRoomUserResponseDto } from "./dto/find-one-chatting-room-user-response.dto";
@@ -41,7 +42,8 @@ export class ChattingRoomUserController {
     description: "application/json.",
   })
   async createChattingRoomUser(
-    @Body() request: CreateChattingRoomUserRequestDto,
+    @Body(new ValidationPipe({ transform: true, whitelist: true }))
+    request: CreateChattingRoomUserRequestDto,
     @AuthUser() user: User,
   ): Promise<CreateChattingRoomUserResponseDto> {
     return this.chattingRoomService.createChattingRoomUser({
