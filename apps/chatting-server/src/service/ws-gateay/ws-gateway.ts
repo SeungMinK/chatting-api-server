@@ -145,7 +145,7 @@ export class WsGateway
   }
 
   @SubscribeMessage("send-message")
-  handleMessage(
+  async handleMessage(
     client: Socket,
     payload: {
       message: string;
@@ -154,12 +154,9 @@ export class WsGateway
       username: string;
     },
   ) {
-    // 전체 유저에게, 채팅방마다 마지막 메시지 변경 Emit
-    this.server.emit("last-message", { ...payload, createdAt: new Date() });
-
-    this.server.to(payload.chattingRoomId).emit("receive-message", payload);
-
-    this.chattingMessageService
+    // 100% 동작을 보장해야하는 경우, 저장 후 EMIT, 100% 보장하지 않아도 되면 비동기로 동작하면 성능상 이점
+    // 클라이언트에서, 실시간 메시지 업데이트를 처리한다면 비동기로 동작해도 상관없음
+    await this.chattingMessageService
       .createChattingMessage({
         content: payload.message,
         userId: payload.userId,
@@ -168,6 +165,11 @@ export class WsGateway
       .catch((e) => {
         return e;
       });
+
+    // 전체 유저에게, 채팅방마다 마지막 메시지 변경 Emit
+    this.server.emit("last-message", { ...payload, createdAt: new Date() });
+
+    this.server.to(payload.chattingRoomId).emit("receive-message", payload);
   }
 
   handleConnection(client: any, ...args: any[]) {
