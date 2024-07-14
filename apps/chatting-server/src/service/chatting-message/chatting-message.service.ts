@@ -27,12 +27,6 @@ export class ChattingMessageService {
         chattingRoom: { id: request.chattingRoomId },
       });
 
-    console.log(
-      creatableChattingMessage,
-      "createChattingMessage",
-      "creatableChattingMessage",
-    );
-
     const createdChattingMessage = await this.chattingMessageRepository.save(
       creatableChattingMessage,
     );
