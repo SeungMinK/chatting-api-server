@@ -174,6 +174,8 @@ npm run test:e2e:chatting
 
 
 - Step 3. 채팅방 메시지 발송 ( 채팅방 리스트 마지막 메시지 실시간 갱신, 실시간 채팅)
+  ![IMG_C200F730C01D-1](https://github.com/user-attachments/assets/b5997d9b-3606-458b-ab5a-b22b504a242d)
+
 
 # 프로젝트 구현 방법
 
