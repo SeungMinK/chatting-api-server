@@ -17,6 +17,8 @@
     "start:prod": "node dist/main",
     "start:db:service": "docker-compose -f docker-compose-db.yml up -d",
     "stop:db:service": "docker-compose -f docker-compose-db.yml down -v",
+    "start:web:service": "docker-compose -f docker-compose-web.yml up --build",
+    "stop:web:service": "docker-compose -f docker-compose-web.yml down -v",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
     "test:watch": "jest --watch",
