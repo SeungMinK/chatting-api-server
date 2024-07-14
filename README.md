@@ -1,40 +1,64 @@
 # 실행 방법
+
 - TBD
 
+# 기능 요구사항
+
+## 메시지 실시간 갱신
+
+## 채팅방 리스트 유저 많은 순서대로
+
+### 초기 진입시 API
+
+### 진입 후, Client에서 numActiveUserCount Update 후 재정렬(클라 작업 O, 서버 부하 X)
+
+### 진입 후, Client에서 채팅방 리스트 API 재호출(클라 작업 X, 서버 부하 O)
+
 # 서비스 구성도
+
 - 회원가입 및 로그인 기능 WS과 Chatting-room 및 Chatting 기록 기능 구현
 - 구현 기능이 많지않고, 빠르게 구현하기 위해 모노리틱 구조로 설계 (추후에 기능이 많아질 경우 MSA 구조로 전환)
 - TBD
 
-
 # 서비스 흐름도
+
 ## Step.1
+
 ![채팅 서버SequenceDiagram_1](https://github.com/SeungMinK/chatting-api-server/assets/20696473/4fab9525-efa2-4ea0-9d7b-60d39c09aa24)
 
 ## Step.2
+
 - TBD
+
 ## Step.3
+
 - TBD
 
 # 프로젝트 구현 방법
-## Step.1 User 서비스 생성 및 ws-gateway Service 생성 
+
+## Step.1 User 서비스 생성 및 ws-gateway Service 생성
+
 - https://github.com/SeungMinK/chatting-api-server/issues/4
 - https://github.com/SeungMinK/chatting-api-server/issues/5
+
 ## Step.2 채팅방 생성 및 채팅방 Join
-### TBD
-# Step3. 메시지 실시간 소통
+
 ### TBD
 
+# Step3. 메시지 실시간 소통
+
+### TBD
 
 # Docs
-- TBD
 
+- TBD
 
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
 </p>
 
 [circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
+
 [circleci-url]: https://circleci.com/gh/nestjs/nest
 
   <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
@@ -92,7 +116,8 @@ $ npm run test:cov
 
 ## Support
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If
+you'd like to join them, please [read more here](https://docs.nestjs.com/support).
 
 ## Stay in touch
 
