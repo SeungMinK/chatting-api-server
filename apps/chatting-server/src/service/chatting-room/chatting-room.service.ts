@@ -36,7 +36,7 @@ export class ChattingRoomService {
       (value) => value.createdAt > createdAtCondition,
     );
 
-    existChattingRoom.numActiveUserCount =
+    existChattingRoom.numActiveUsersHalfHour =
       existChattingRoom.chattingRoomUsers.length;
 
     console.log(existChattingRoom, "findOneChattingRoom", "existChattingRoom");
@@ -72,16 +72,19 @@ export class ChattingRoomService {
 
     let existChattingRoom = await queryBuilder.getMany();
 
-    // 조회 시점을 기준으로 30분간 활동 유저수 Count
+    // 조회 시점을 기준으로 30분간 활동 유저수 Count 및 LastMessage 조회
     existChattingRoom.forEach((room) => {
-      room.numActiveUserCount = room.chattingRoomUsers.length;
+      room.numActiveUsersHalfHour = room.chattingRoomUsers.length;
       room.lastChattingMessage =
         room.chattingMessages?.[room.chattingMessages.length - 1] || null;
+
+      delete room.chattingRoomUsers;
+      delete room.chattingMessages;
     });
 
-    // numActiveUserCount 가 높은 순서대로 정렬
+    // numActiveUsersHalfHour 가 높은 순서대로 정렬
     existChattingRoom = existChattingRoom.sort(
-      (a, b) => b.numActiveUserCount - a.numActiveUserCount,
+      (a, b) => b.numActiveUsersHalfHour - a.numActiveUsersHalfHour,
     );
 
     return plainToInstance(FindChattingRoomResponseDto, existChattingRoom);

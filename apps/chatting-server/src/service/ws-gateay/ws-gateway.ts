@@ -87,7 +87,7 @@ export class WsGateway
     //   statusCode: HttpStatus.OK,
     //   message: ["success"],
     //   chattingRoomId: payload.chattingRoomId,
-    //   numActiveUserCount: existChattingRoom.numActiveUserCount ?? 0,
+    //   numActiveUsersHalfHour: existChattingRoom.numActiveUsersHalfHour ?? 0,
     // });
 
     // DB에는 유저 접속 정보 생성 ( 비동기로 생성할 경우, 간혈적으로 정보가 누락되는 경우가 있음), Join은 Message에 비해 호출 빈도가 적음
@@ -112,7 +112,7 @@ export class WsGateway
       userId: payload.userId,
       username: payload.username,
       chattingRoomId: payload.chattingRoomId,
-      numActiveUserCount: existChattingRoom.numActiveUserCount ?? 0,
+      numActiveUsersHalfHour: existChattingRoom.numActiveUsersHalfHour ?? 0,
     });
   }
 

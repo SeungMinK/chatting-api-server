@@ -10,7 +10,7 @@
 
 ### 초기 진입시 API
 
-### 진입 후, Client에서 numActiveUserCount Update 후 재정렬(클라 작업 O, 서버 부하 X)
+### 진입 후, Client에서 numActiveUsersHalfHour Update 후 재정렬(클라 작업 O, 서버 부하 X)
 
 ### 진입 후, Client에서 채팅방 리스트 API 재호출(클라 작업 X, 서버 부하 O)
 
