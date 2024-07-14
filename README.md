@@ -1,36 +1,79 @@
 # 실행 방법
 
-- TBD
+## 1. 서비스 실행 (Chatting Server, Mysql, Redis, Web Server)
 
-# 기능 요구사항
+```agsl
+docker-compose -f docker-compose.yml up -d
+```
 
-## 메시지 실시간 갱신
+<HR>
 
-## 채팅방 리스트 유저 많은 순서대로
+## 2. 초기 데이터 Init
 
-### 초기 진입시 API
+- Swagger or Curl
 
-### 진입 후, Client에서 numActiveUsersHalfHour Update 후 재정렬(클라 작업 O, 서버 부하 X)
+### 2-1) 유저 생성
 
-### 진입 후, Client에서 채팅방 리스트 API 재호출(클라 작업 X, 서버 부하 O)
+- http://localhost:3000/api#/users/UserController_createUser
+
+```agsl
+# username 필드 값 변경 가능
+curl -X 'POST' \
+  'http://localhost:3000/users' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "username": "testuser1"
+}'
+```
+
+### 2-2) 로그인 (JWT 토큰 취득)
+
+- http://localhost:3000/api#/auth/AuthController_login
+
+```agsl
+# 2-1에서 입력한 username
+curl -X 'POST' \
+  'http://localhost:3000/auth/login' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "username": "testUser1"
+}'
+```
+
+### 2-3) 채팅방 생성
+
+- http://localhost:3000/api#/chatting-rooms/ChattingRoomController_createChattingRoom
+
+```agsl
+# Authorization 값 : 2-2에서 획득한 토큰
+curl -X 'POST' \
+  'http://localhost:3000/chatting-rooms' \
+  -H 'accept: application/json' \
+  -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6InRlc3R1c2VyMSIsImRlc2NyaXB0aW9uIjoiIiwicHJvZmlsZVVybCI6bnVsbCwiZW1haWwiOm51bGwsInJvbGUiOiJVU0VSIiwiY3JlYXRlZEF0IjoiMjAyNC0wNy0xNFQwODo1NzoyMi44MzlaIiwidXBkYXRlZEF0IjoiMjAyNC0wNy0xNFQwODo1NzoyMi44MzlaIiwiZGVsZXRlZEF0IjpudWxsLCJpYXQiOjE3MjA5NDgyMjYsImV4cCI6MTcyMDk1MTgyNn0.rLBBqLjPhenC5oO2r1oayPmrXRq1XGRRwBJbPfsBS3w' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "title": "자기 소개서 리뷰 채팅방",
+  "description": "자소서 리뷰 채팅방 설명"
+}''
+```
+
+## 3. 채팅 웹 사이트 접속
+
+```agsl
+http://localhost:3000
+```
+
+<HR>
 
 # 서비스 구성도
 
-- 회원가입 및 로그인 기능 WS과 Chatting-room 및 Chatting 기록 기능 구현
-- 구현 기능이 많지않고, 빠르게 구현하기 위해 모노리틱 구조로 설계 (추후에 기능이 많아질 경우 MSA 구조로 전환)
+- 구현 기능이 많지 않고, 빠르게 구현 하기 위해 모노리틱 구조로 설계
+    - 추후에 기능이 많아질 경우 MSA 구조로 전환 필요
 - TBD
 
 # 서비스 흐름도
-
-## Step.1
-
-![채팅 서버SequenceDiagram_1](https://github.com/SeungMinK/chatting-api-server/assets/20696473/4fab9525-efa2-4ea0-9d7b-60d39c09aa24)
-
-## Step.2
-
-- TBD
-
-## Step.3
 
 - TBD
 
@@ -41,17 +84,25 @@
 - https://github.com/SeungMinK/chatting-api-server/issues/4
 - https://github.com/SeungMinK/chatting-api-server/issues/5
 
-## Step.2 채팅방 생성 및 채팅방 Join
+## Step.2 채팅방 생성 및 채팅방 Join, 메시지 실시간 소통
+
+- https://github.com/SeungMinK/chatting-api-server/issues/9
 
 ### TBD
 
-# Step3. 메시지 실시간 소통
+# Step3. 테스트 케이스 작성
 
-### TBD
+- https://github.com/SeungMinK/chatting-api-server/issues/11
 
 # Docs
 
-- TBD
+- [passport]https://docs.nestjs.com/recipes/passport
+- [ws gateway]https://docs.nestjs.com/websockets/gateways
+- [실시간 데이터 갱신]https://nebulaisme.tistory.com/147
+
+<HR>
+
+# nestjs
 
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
@@ -81,38 +132,6 @@
 ## Description
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Installation
-
-```bash
-$ npm install
-```
-
-## Running the app
-
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
-```
-
-## Test
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
 
 ## Support
 
