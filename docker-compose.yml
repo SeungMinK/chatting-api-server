@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  # 채팅 서버 서비스
+  chatting-server:
+    build:
+      context: .
+      dockerfile: apps/chatting-server/Dockerfile
+    container_name: chatting-server
+    environment:
+      NODE_ENV: ${NODE_ENV:-local}
+      DB_HOST: db
+      REDIS_HOST: db-redis-cache
+      DB_PORT: ${DB_PORT:-3306}
+      DB_NAME: ${DB_NAME:-chatting}
+      DB_USER: ${MYSQL_USER:-tester}
+      DB_PASSWORD: ${MYSQL_PASSWORD:-test1234}
+      JWT_SECRET: ${JWT_SECRET:-a^s!d891$%@22!e78gzxy@icg671}
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+      - db-redis-cache
+
+  # 데이터베이스 서비스
+  db:
+    image: mysql:8.0
+    container_name: mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-chatting}
+      MYSQL_USER: ${MYSQL_USER:-tester}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-test1234}
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+  # Redis 캐시 서비스
+  db-redis-cache:
+    image: redis:6.2.7-alpine
+    container_name: db-redis-cache
+    command: redis-server --port 6379
+    labels:
+      - "name=redis"
+      - "mode=standalone"
+    ports:
+      - "6379:6379"
+
+  # 웹 서비스 (Nginx)
+  web:
+    build: ./web
+    ports:
+      - "80:80"
+    depends_on:
+      - chatting-server
+
+volumes:
+  db_data:

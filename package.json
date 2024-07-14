@@ -19,6 +19,8 @@
     "stop:db:service": "docker-compose -f docker-compose-db.yml down -v",
     "start:web:service": "docker-compose -f docker-compose-web.yml up --build",
     "stop:web:service": "docker-compose -f docker-compose-web.yml down -v",
+    "start:service:docker": "docker-compose -f docker-compose.yml up -d",
+    "stop:service:docker": "docker-compose -f docker-compose.yml down -v",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
     "test:e2e:chatting": "jest --config ./apps/chatting-server/test/jest-e2e.json apps/chatting-server/test/ws/ws.service.e2e-spec.ts",
