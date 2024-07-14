@@ -2,7 +2,7 @@ import { NestFactory } from "@nestjs/core";
 import { ChattingServerModule } from "./chatting-server.module";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import { json, urlencoded } from "express";
-import { RedisIoAdapter } from "./service/ws-gateay/adapters/redis-io.adapter";
+import { RedisIoAdapter } from "./service/ws-gateway/adapters/redis-io.adapter";
 
 async function bootstrap() {
   const app = await NestFactory.create(ChattingServerModule);

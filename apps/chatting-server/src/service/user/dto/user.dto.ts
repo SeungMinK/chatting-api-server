@@ -20,24 +20,6 @@ export class UserDto {
   @IsString()
   description?: string;
 
-  @ApiPropertyOptional({
-    example: "https://chattingServer.png",
-  })
-  @IsString()
-  profileUrl?: string;
-
-  @ApiProperty({
-    example: "testUser1@chatting.com",
-  })
-  @IsString()
-  email?: string;
-
-  @ApiProperty({
-    example: "USER",
-  })
-  @IsString()
-  role: string;
-
   @ApiProperty({ example: "2021-01-23T16:57:35.977Z" })
   @IsDateString()
   createdAt: string;
