@@ -10,7 +10,7 @@ export class ChattingMessageDto {
   id: string;
 
   @ApiProperty({
-    example: "채팅 메시지 예시입니다.",
+    example: "채팅 메시지 예시.",
   })
   @IsString()
   content: string;

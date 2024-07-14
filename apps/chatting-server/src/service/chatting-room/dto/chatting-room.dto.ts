@@ -1,5 +1,6 @@
-import { IsDateString, IsNumber, IsString } from "class-validator";
+import { IsDateString, IsNumber, IsObject, IsString } from "class-validator";
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
+import { ChattingMessageDto } from "../../chatting-message/dto/chatting-message.dto";
 
 export class ChattingRoomDto {
   @ApiProperty({
@@ -9,46 +10,33 @@ export class ChattingRoomDto {
   id: string;
 
   @ApiProperty({
-    example: "testUser1",
+    example: "채팅방 제목",
   })
   @IsString()
   title: string;
 
+  @ApiProperty({
+    example: "채팅방 설명",
+  })
+  description: string;
+
   @ApiPropertyOptional({
-    example: "This is My Description",
+    type: ChattingMessageDto,
   })
-  @IsString()
-  description?: string;
+  @IsObject()
+  lastChattingMessage?: ChattingMessageDto; // 채팅방 마지막 메시지
 
   @ApiPropertyOptional({
-    example: "https://chattingServer.png",
-  })
-  @IsString()
-  users?: string;
-
-  @ApiProperty({
-    example: "testUser1@chatting.com",
-  })
-  @IsString()
-  chattingMessages?: string;
-
-  @ApiProperty({
-    example: "USER",
-  })
-  @IsString()
-  lastChattingMessage?: string;
-
-  @ApiProperty({
     example: 1,
   })
   @IsNumber()
-  numActiveUsersHalfHour: number; // "최근 30분간 접속자 수"
+  numActiveUsersHalfHour?: number; // "최근 30분간 접속자 수"
 
   @ApiProperty({
     example: "USER",
   })
   @IsString()
-  createdBy: string;
+  createdBy: string; // 채팅방 생성자
 
   @ApiProperty({ example: "2021-01-23T16:57:35.977Z" })
   @IsDateString()
