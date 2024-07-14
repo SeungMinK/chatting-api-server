@@ -170,7 +170,8 @@ npm run test:e2e:chatting
  ![image](https://github.com/user-attachments/assets/589f6621-fe1f-49b8-9fd3-b7c5527de75d)
 
 - Step 2. 채팅방 진입 (채팅방 리스트에서 실시간 유저수 갱신, 이전 대화 불러오기)
-  ![IMG_0106](https://github.com/user-attachments/assets/ef813888-7b34-4bbf-bfdc-1775fff06a90)
+  ![IMG_C200F730C01D-1](https://github.com/user-attachments/assets/c815202b-dd2e-4fc8-a81f-6359b2965f7c)
+
 
 - Step 3. 채팅방 메시지 발송 ( 채팅방 리스트 마지막 메시지 실시간 갱신, 실시간 채팅)
 
