@@ -9,5 +9,5 @@ export class RemoveChattingRoomUserRequestDto {
   @IsNotEmpty()
   chattingRoomId: string;
 
-  requestUserId: string;
+  requestUserId: string; // 요청자 Id, Token 에 포함
 }

@@ -54,7 +54,7 @@ export class ChattingRoomUserService {
   ): Promise<CreateChattingRoomUserResponseDto> {
     console.log(request, "createChattingRoomUser");
 
-    // 채팅방이 이미 있는지 먼저 체크
+    // 채팅방 중복 입장 체크
     await this.chattingRoomService.findOneChattingRoom({
       id: request.chattingRoomId,
     });
