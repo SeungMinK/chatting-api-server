@@ -50,10 +50,29 @@ export class ChattingMessageService {
     request: FindChattingMessageRequestDto,
   ): Promise<FindChattingMessageResponseDto[]> {
     console.log(request, "findChattingMessage");
-    let existChattingMessage = await this.chattingMessageRepository.find({
-      where: { chattingRoom: { id: request.chattingRoomId } },
-      relations: { user: true },
-    });
+
+    const queryBuilder = this.chattingMessageRepository
+      .createQueryBuilder("chatting_messages")
+      .leftJoinAndSelect("chatting_messages.chattingRoom", "chattingRoom")
+      .leftJoinAndSelect("chatting_messages.user", "user");
+
+    if (request.chattingRoomId) {
+      queryBuilder.andWhere("chattingRoom.id = :chattingRoomId", {
+        chattingRoomId: request.chattingRoomId,
+      });
+    }
+
+    if (request.page && request.limit) {
+      queryBuilder.skip((request.page - 1) * request.limit).take(request.limit);
+    } else if (request.limit) {
+      queryBuilder.take(request.limit);
+    }
+
+    if (request.order) {
+      queryBuilder.orderBy(request.order);
+    }
+
+    const existChattingMessage = await queryBuilder.getMany();
 
     console.log(existChattingMessage, "findChattingMessage");
     return plainToInstance(

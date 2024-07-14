@@ -70,6 +70,16 @@ export class ChattingRoomService {
       )
       .leftJoinAndSelect("chatting_rooms.chattingMessages", "chattingMessages");
 
+    if (request.page && request.limit) {
+      queryBuilder.skip((request.page - 1) * request.limit).take(request.limit);
+    } else if (request.limit) {
+      queryBuilder.take(request.limit);
+    }
+
+    if (request.order) {
+      queryBuilder.orderBy(request.order);
+    }
+
     let existChattingRoom = await queryBuilder.getMany();
 
     // 조회 시점을 기준으로 30분간 활동 유저수 Count 및 LastMessage 조회

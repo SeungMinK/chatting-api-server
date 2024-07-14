@@ -3,28 +3,27 @@ import { ApiPropertyOptional } from "@nestjs/swagger";
 
 export class FindChattingMessageRequestDto {
   @ApiPropertyOptional({
-    example: 25,
+    example: 5,
   })
   @IsString()
   @IsOptional()
   limit?: number;
 
   @ApiPropertyOptional({
-    example: 25,
+    example: 1,
   })
   @IsString()
   @IsOptional()
   page?: number;
 
   @ApiPropertyOptional({
-    example: "createdAt",
+    example: "chatting_messages.createdAt",
   })
   @IsString()
   @IsOptional()
   order?: string;
 
   @ApiPropertyOptional({
-    type: String,
     example: "1",
   })
   @IsString()
