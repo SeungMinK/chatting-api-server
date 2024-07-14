@@ -33,7 +33,7 @@ export class ChattingRoomDto {
   numActiveUsersHalfHour?: number; // "최근 30분간 접속자 수"
 
   @ApiProperty({
-    example: "USER",
+    example: "1",
   })
   @IsString()
   createdBy: string; // 채팅방 생성자

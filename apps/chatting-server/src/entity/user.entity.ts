@@ -22,15 +22,6 @@ export class UserEntity {
   @Column({ length: 255, default: "" })
   description: string;
 
-  @Column({ type: "text", nullable: true })
-  profileUrl: string;
-
-  @Column({ type: "varchar", unique: true, length: 255, nullable: true })
-  email: string;
-
-  @Column({ type: "varchar", length: 16, nullable: false, default: "USER" })
-  role: string;
-
   @OneToMany(
     () => ChattingRoomUserEntity,
     (chattingRoomUser) => chattingRoomUser.user,

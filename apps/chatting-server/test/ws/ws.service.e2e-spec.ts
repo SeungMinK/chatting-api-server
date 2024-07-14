@@ -108,7 +108,7 @@ describe("Chatting API Server", () => {
 
   it("채팅방 조회 기능 테스트", async () => {
     const roomsResponse = await request(server)
-      .get("/chatting-rooms?limit=25&page=1&order=createdAt")
+      .get("/chatting-rooms?limit=25&page=1")
       .set("Authorization", `Bearer ${accessTokens[0]}`);
 
     expect(roomsResponse.status).toBe(200);
@@ -196,7 +196,7 @@ describe("Chatting API Server", () => {
   it("채팅 메시지 조회 기능 테스트", async () => {
     const chatHistoryResponse = await request(server)
       .get(
-        `/chatting-messages?limit=25&page=1&order=createdAt&chattingRoomId=${createdChattingRoomId}`,
+        `/chatting-messages?limit=25&page=1&chattingRoomId=${createdChattingRoomId}`,
       )
       .set("Authorization", `Bearer ${accessTokens[0]}`);
 

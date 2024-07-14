@@ -34,7 +34,7 @@ export class ChattingRoomEntity {
   )
   chattingMessages: ChattingMessageEntity[];
 
-  @Column({ length: 255, default: "", comment: "채팅방 생성자" })
+  @Column({ nullable: false, comment: "채팅방 생성자" })
   createdBy: string;
 
   @CreateDateColumn()
