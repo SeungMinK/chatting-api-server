@@ -17,6 +17,6 @@ RUN npm run build:chatting-server
 ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.9.0/wait /wait
 RUN chmod +x /wait
 
-#CMD ["sh", "-c", "/wait && node dist/apps/rest-api-gateway/main"]
 
-CMD node dist/apps/rest-api-gateway/main
+
+CMD node dist/apps/chatting-server/main

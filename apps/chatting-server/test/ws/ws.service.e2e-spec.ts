@@ -126,21 +126,21 @@ describe("Chatting API Server", () => {
     // 전체 유저 수신 _ 실시간 유저수 업데이트
     sockets[0].on("user-joined", (payload: any) => {
       expect(payload.chattingRoomId).toBe(createdChattingRoomId);
-      expect(payload.numActiveUserCount).toBe(1);
+      expect(payload.numActiveUsersHalfHour).toBe(1);
 
       done();
     });
 
     sockets[1].on("user-joined", (payload: any) => {
       expect(payload.chattingRoomId).toBe(createdChattingRoomId);
-      expect(payload.numActiveUserCount).toBe(1);
+      expect(payload.numActiveUsersHalfHour).toBe(1);
 
       done();
     });
 
     sockets[2].on("user-joined", (payload: any) => {
       expect(payload.chattingRoomId).toBe(createdChattingRoomId);
-      expect(payload.numActiveUserCount).toBe(1);
+      expect(payload.numActiveUsersHalfHour).toBe(1);
 
       done();
     });

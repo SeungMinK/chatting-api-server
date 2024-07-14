@@ -105,7 +105,7 @@ button:hover {
     color: #999;
 }
 
-.chat-room-lastMessage {
+.chat-room-lastChattingMessage {
     margin-top: 10px;
     font-size: 14px;
     color: #333;

@@ -90,21 +90,21 @@ document.addEventListener("DOMContentLoaded", () => {
     rooms.forEach((room) => {
       const roomElement = document.createElement("div");
       roomElement.classList.add("chat-room-item");
-      const lastMessageContent =
+      const lastChattingMessageContent =
         room.lastChattingMessage?.content ?? "아직 진행중인 대화가 없습니다.";
-      const lastMessageTime = room.lastChattingMessage
+      const lastChattingMessageTime = room.lastChattingMessage
         ? new Date(room.lastChattingMessage.createdAt).toLocaleString()
         : "";
       roomElement.innerHTML = `
         <div class="chat-room-header">
           <div class="chat-room-title">${room.title}</div>
-          <div class="chat-room-activeUsers" data-room-id="${room.id}">실시간 접속자수: ${room.numActiveUserCount}</div>
+          <div class="chat-room-activeUsers" data-room-id="${room.id}">실시간 접속자수: ${room.numActiveUsersHalfHour}</div>
         </div>
         <div class="chat-room-description">${room.description}</div>
         <div class="chat-room-createdAt">${new Date(room.createdAt).toLocaleString()}</div>
-        <div class="chat-room-lastMessage" data-room-id="${room.id}">
-          <div class="last-message-content">${lastMessageContent}</div>
-          <div class="last-message-time">${lastMessageTime}</div>
+        <div class="chat-room-lastChattingMessage" data-room-id="${room.id}">
+          <div class="last-message-content">${lastChattingMessageContent}</div>
+          <div class="last-message-time">${lastChattingMessageTime}</div>
         </div>
       `;
       roomElement.addEventListener("click", async () => {
@@ -175,12 +175,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
       socket.on("user-joined", (data) => {
         console.log("User joined: ", data);
-        updateActiveUserCount(data.chattingRoomId, data.numActiveUserCount);
+        updateActiveUserCount(data.chattingRoomId, data.numActiveUsersHalfHour);
       });
 
       socket.on("user-left", (data) => {
         console.log("User left: ", data);
-        updateActiveUserCount(data.chattingRoomId, data.numActiveUserCount);
+        updateActiveUserCount(data.chattingRoomId, data.numActiveUsersHalfHour);
       });
 
       socket.on("error", (error) => {
@@ -220,15 +220,17 @@ document.addEventListener("DOMContentLoaded", () => {
     if (activeUserElement) {
       activeUserElement.textContent = `실시간 접속자수: ${activeUserCount}`;
 
-      // Update the numActiveUserCount in roomsData
+      // Update the numActiveUsersHalfHour in roomsData
       roomsData.forEach((room) => {
         if (room.id === chattingRoomId) {
-          room.numActiveUserCount = activeUserCount;
+          room.numActiveUsersHalfHour = activeUserCount;
         }
       });
 
-      // Re-sort the roomsData based on numActiveUserCount
-      roomsData.sort((a, b) => b.numActiveUserCount - a.numActiveUserCount);
+      // Re-sort the roomsData based on numActiveUsersHalfHour
+      roomsData.sort(
+        (a, b) => b.numActiveUsersHalfHour - a.numActiveUsersHalfHour,
+      );
 
       // Re-display the chatting rooms
       displayChattingRooms(roomsData);
@@ -236,14 +238,16 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function updateLastMessage(message) {
-    const lastMessageElement = document.querySelector(
-      `.chat-room-lastMessage[data-room-id="${message.chattingRoomId}"]`,
+    const lastChattingMessageElement = document.querySelector(
+      `.chat-room-lastChattingMessage[data-room-id="${message.chattingRoomId}"]`,
     );
-    if (lastMessageElement) {
-      lastMessageElement.querySelector(".last-message-content").textContent =
-        message.message;
-      lastMessageElement.querySelector(".last-message-time").textContent =
-        new Date(message.createdAt).toLocaleString();
+    if (lastChattingMessageElement) {
+      lastChattingMessageElement.querySelector(
+        ".last-message-content",
+      ).textContent = message.message;
+      lastChattingMessageElement.querySelector(
+        ".last-message-time",
+      ).textContent = new Date(message.createdAt).toLocaleString();
 
       // Update the last message in roomsData
       roomsData.forEach((room) => {
