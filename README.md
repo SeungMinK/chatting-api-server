@@ -166,7 +166,10 @@ npm run test:e2e:chatting
 
 # 서비스 흐름도
 
-- TBD
+- step 1. 로그인 및 소켓 연결 순서도 
+ ![image](https://github.com/user-attachments/assets/589f6621-fe1f-49b8-9fd3-b7c5527de75d)
+
+- step 2. 실시간 메시지 수신 순서도
 
 # 프로젝트 구현 방법
 
