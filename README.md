@@ -80,9 +80,18 @@ jest --config ./apps/chatting-server/test/jest-e2e.json apps/chatting-server/tes
 - 구현 기능이 많지 않고, 빠르게 구현 하기 위해 모노리틱 구조로 설계
     - 추후에 기능이 많아질 경우 MSA 구조로 전환 필요
 - ERD
-- ![chatting_ERD](https://github.com/user-attachments/assets/deb6b262-60b5-42ef-a22a-9962a0c99dab)
+![chatting_ERD](https://github.com/user-attachments/assets/deb6b262-60b5-42ef-a22a-9962a0c99dab)
 
+<HR> 
 
+# 주요 개발 요구사항
+- 실시간 채팅
+- 채팅방 마지막 메시지 갱신
+- 30분 내 접속자 수 기준으로 채팅 정렬
+
+- [주요 개발 사항, 소켓 구현 내용 보러 가기](https://github.com/SeungMinK/chatting-api-server/issues/9)
+
+<HR>
 
 # 서비스 흐름도
 
@@ -99,7 +108,6 @@ jest --config ./apps/chatting-server/test/jest-e2e.json apps/chatting-server/tes
 
 - https://github.com/SeungMinK/chatting-api-server/issues/9
 
-### TBD
 
 # Step3. 테스트 케이스 작성
 
