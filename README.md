@@ -149,8 +149,30 @@ npm run test:e2e:chatting
 
 - 구현 기능이 많지 않고, 빠르게 구현 하기 위해 모노리틱 구조로 설계
     - 추후에 기능이 많아질 경우 MSA 구조로 전환 필요
-- ERD
-![chatting_ERD](https://github.com/user-attachments/assets/deb6b262-60b5-42ef-a22a-9962a0c99dab)
+
+<HR> 
+
+# 서비스 흐름도
+
+## Step 1. 로그인 및 소켓 연결 순서도 
+ ![image](https://github.com/user-attachments/assets/589f6621-fe1f-49b8-9fd3-b7c5527de75d)
+
+## Step 2. 채팅방 진입 (채팅방 리스트에서 실시간 유저수 갱신, 이전 대화 불러오기)
+  ![IMG_C200F730C01D-1](https://github.com/user-attachments/assets/c815202b-dd2e-4fc8-a81f-6359b2965f7c)
+
+
+## Step 3. 채팅방 메시지 발송 ( 채팅방 리스트 마지막 메시지 실시간 갱신, 실시간 채팅)
+  ![IMG_B505E6F9C27C-1](https://github.com/user-attachments/assets/97049fdc-4ddf-4ad1-a16c-aae483ea7301)
+
+
+
+
+<HR> 
+
+# ERD
+<img width="1170" alt="image" src="https://github.com/user-attachments/assets/78dcc467-ef32-4791-8078-cdebe32bdd0b">
+
+
 
 <HR> 
 
@@ -163,18 +185,6 @@ npm run test:e2e:chatting
 - [주요 개발 사항, 소켓 구현 내용 보러 가기](https://github.com/SeungMinK/chatting-api-server/issues/9)
 
 <HR>
-
-# 서비스 흐름도
-
-- Step 1. 로그인 및 소켓 연결 순서도 
- ![image](https://github.com/user-attachments/assets/589f6621-fe1f-49b8-9fd3-b7c5527de75d)
-
-- Step 2. 채팅방 진입 (채팅방 리스트에서 실시간 유저수 갱신, 이전 대화 불러오기)
-  ![IMG_C200F730C01D-1](https://github.com/user-attachments/assets/c815202b-dd2e-4fc8-a81f-6359b2965f7c)
-
-
-- Step 3. 채팅방 메시지 발송 ( 채팅방 리스트 마지막 메시지 실시간 갱신, 실시간 채팅)
-  ![IMG_C200F730C01D-1](https://github.com/user-attachments/assets/b5997d9b-3606-458b-ab5a-b22b504a242d)
 
 
 # 프로젝트 구현 방법
