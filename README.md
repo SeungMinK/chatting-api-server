@@ -166,10 +166,13 @@ npm run test:e2e:chatting
 
 # 서비스 흐름도
 
-- step 1. 로그인 및 소켓 연결 순서도 
+- Step 1. 로그인 및 소켓 연결 순서도 
  ![image](https://github.com/user-attachments/assets/589f6621-fe1f-49b8-9fd3-b7c5527de75d)
 
-- step 2. 실시간 메시지 수신 순서도
+- Step 2. 채팅방 진입 (채팅방 리스트에서 실시간 유저수 갱신, 이전 대화 불러오기)
+  ![IMG_0106](https://github.com/user-attachments/assets/ef813888-7b34-4bbf-bfdc-1775fff06a90)
+
+- Step 3. 채팅방 메시지 발송 ( 채팅방 리스트 마지막 메시지 실시간 갱신, 실시간 채팅)
 
 # 프로젝트 구현 방법
 
