@@ -158,6 +158,7 @@ npm run test:e2e:chatting
 - 실시간 채팅
 - 채팅방 마지막 메시지 갱신
 - 30분 내 접속자 수 기준으로 채팅 정렬
+- 채팅방 진입시, 기존 대화 내역 불러오기
 
 - [주요 개발 사항, 소켓 구현 내용 보러 가기](https://github.com/SeungMinK/chatting-api-server/issues/9)
 
