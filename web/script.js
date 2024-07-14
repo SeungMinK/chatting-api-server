@@ -180,7 +180,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       socket.on("user-left", (data) => {
         console.log("User left: ", data);
-        fetchChattingRooms();
+        updateActiveUserCount(data.chattingRoomId, data.numActiveUserCount);
       });
 
       socket.on("error", (error) => {
@@ -219,6 +219,19 @@ document.addEventListener("DOMContentLoaded", () => {
     );
     if (activeUserElement) {
       activeUserElement.textContent = `실시간 접속자수: ${activeUserCount}`;
+
+      // Update the numActiveUserCount in roomsData
+      roomsData.forEach((room) => {
+        if (room.id === chattingRoomId) {
+          room.numActiveUserCount = activeUserCount;
+        }
+      });
+
+      // Re-sort the roomsData based on numActiveUserCount
+      roomsData.sort((a, b) => b.numActiveUserCount - a.numActiveUserCount);
+
+      // Re-display the chatting rooms
+      displayChattingRooms(roomsData);
     }
   }
 
@@ -231,6 +244,16 @@ document.addEventListener("DOMContentLoaded", () => {
         message.message;
       lastMessageElement.querySelector(".last-message-time").textContent =
         new Date(message.createdAt).toLocaleString();
+
+      // Update the last message in roomsData
+      roomsData.forEach((room) => {
+        if (room.id === message.chattingRoomId) {
+          room.lastChattingMessage = {
+            content: message.message,
+            createdAt: message.createdAt,
+          };
+        }
+      });
     }
   }
 

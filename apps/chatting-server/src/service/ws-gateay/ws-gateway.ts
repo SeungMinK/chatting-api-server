@@ -83,27 +83,12 @@ export class WsGateway
     client.join(payload.chattingRoomId);
     currentUserRooms.add(payload.chattingRoomId);
 
-    const existChattingRoom =
-      await this.chattingRoomService.findOneChattingRoom({
-        id: payload.chattingRoomId,
-      });
-
     // this.server.emit("user-joined-all", {
     //   statusCode: HttpStatus.OK,
     //   message: ["success"],
     //   chattingRoomId: payload.chattingRoomId,
     //   numActiveUserCount: existChattingRoom.numActiveUserCount ?? 0,
     // });
-
-    // 로그인 한 전체 유저에게 chattingRoomId 별 chattingRoomCount emit
-    this.server.emit("user-joined", {
-      statusCode: HttpStatus.OK,
-      message: ["success"],
-      userId: payload.userId,
-      username: payload.username,
-      chattingRoomId: payload.chattingRoomId,
-      numActiveUserCount: existChattingRoom.numActiveUserCount ?? 0,
-    });
 
     // DB에는 유저 접속 정보 생성 ( 비동기로 생성할 경우, 간혈적으로 정보가 누락되는 경우가 있음), Join은 Message에 비해 호출 빈도가 적음
     await this.chattingRoomUserService
@@ -114,6 +99,21 @@ export class WsGateway
       .catch((e) => {
         return e;
       });
+
+    const existChattingRoom =
+      await this.chattingRoomService.findOneChattingRoom({
+        id: payload.chattingRoomId,
+      });
+
+    // 로그인 한 전체 유저에게 chattingRoomId 별 chattingRoomCount emit
+    this.server.emit("user-joined", {
+      statusCode: HttpStatus.OK,
+      message: ["success"],
+      userId: payload.userId,
+      username: payload.username,
+      chattingRoomId: payload.chattingRoomId,
+      numActiveUserCount: existChattingRoom.numActiveUserCount ?? 0,
+    });
   }
 
   @SubscribeMessage("leave")
@@ -155,7 +155,7 @@ export class WsGateway
     },
   ) {
     // 전체 유저에게, 채팅방마다 마지막 메시지 변경 Emit
-    this.server.emit("last-message", payload);
+    this.server.emit("last-message", { ...payload, createdAt: new Date() });
 
     this.server.to(payload.chattingRoomId).emit("receive-message", payload);
 
