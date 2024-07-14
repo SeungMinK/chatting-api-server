@@ -6,7 +6,7 @@ import { UserModule } from "./service/user/user.module";
 import { AuthModule } from "./service/auth/auth.module";
 import { UserEntity } from "./entity/user.entity";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { WsGatewayModule } from "./service/ws-gateay/ws-gateway.module";
+import { WsGatewayModule } from "./service/ws-gateway/ws-gateway.module";
 import { ChattingMessageEntity } from "./entity/chatting-message.entity";
 import { ChattingRoomEntity } from "./entity/chatting-room.entity";
 import { ChattingRoomUserEntity } from "./entity/chatting-room-user.entity";

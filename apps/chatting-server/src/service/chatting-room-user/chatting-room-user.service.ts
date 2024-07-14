@@ -19,17 +19,17 @@ export class ChattingRoomUserService {
     private readonly chattingRoomService: ChattingRoomService,
   ) {}
 
-  async findChattingRoomUser(
+  async findChattingRoomsUser(
     request: FindOneChattingRoomUserRequestDto,
   ): Promise<FindOneChattingRoomUserResponseDto[]> {
-    console.log(request, "findChattingRoomUser");
+    console.log(request, "findChattingRoomsUser");
     let existChattingRoomUser = await this.chattingRoomUserRepository.find({
       where: { chattingRoom: { id: request.chattingRoomId } },
       relations: { user: true, chattingRoom: true },
     });
     console.log(
       existChattingRoomUser,
-      "findChattingRoomUser",
+      "findChattingRoomsUser",
       "existChattingRoomUser",
     );
     if (!existChattingRoomUser) {

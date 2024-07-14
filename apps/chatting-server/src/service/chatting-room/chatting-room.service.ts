@@ -54,10 +54,10 @@ export class ChattingRoomService {
     return plainToInstance(FindOneChattingRoomResponseDto, existChattingRoom);
   }
 
-  async findChattingRoom(
+  async findChattingRooms(
     request: FindChattingRoomRequestDto,
   ): Promise<FindChattingRoomResponseDto[]> {
-    console.log(request, "findChattingRoom");
+    console.log(request, "findChattingRooms");
     const createdAtCondition = new Date(Date.now() - 30 * 60 * 1000); // 30분 전 시간
 
     const queryBuilder = this.chattingRoomRepository

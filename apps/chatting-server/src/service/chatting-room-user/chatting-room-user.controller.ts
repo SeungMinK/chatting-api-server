@@ -62,11 +62,11 @@ export class ChattingRoomUserController {
     description: "application/json.",
   })
   @Header("Content-Type", "application/json")
-  async findChattingRoomUser(
+  async findChattingRoomsUser(
     @Param("chattingRoomId") chattingRoomId: string,
     @AuthUser() user: User,
   ): Promise<FindOneChattingRoomUserResponseDto[]> {
-    return this.chattingRoomService.findChattingRoomUser({
+    return this.chattingRoomService.findChattingRoomsUser({
       chattingRoomId: chattingRoomId,
     });
   }

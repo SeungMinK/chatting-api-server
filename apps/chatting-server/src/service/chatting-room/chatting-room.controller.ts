@@ -67,7 +67,7 @@ export class ChattingRoomController {
     description: "application/json.",
   })
   @Header("Content-Type", "application/json")
-  async findChattingRoom(
+  async findChattingRooms(
     @Query(
       new ValidationPipe({
         transform: true,
@@ -76,7 +76,7 @@ export class ChattingRoomController {
     )
     query: FindChattingRoomRequestDto,
   ): Promise<FindOneChattingRoomResponseDto[]> {
-    return this.chattingRoomService.findChattingRoom(query);
+    return this.chattingRoomService.findChattingRooms(query);
   }
 
   @Get("chatting-rooms/:chattingRoomId")
