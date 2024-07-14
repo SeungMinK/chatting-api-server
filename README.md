@@ -2,36 +2,69 @@
 
 ## 1. 서비스 실행 (Chatting Server, Mysql, Redis, Web Server)
 
-```agsl
-docker-compose -f docker-compose.yml up -d
 ```
+# 전체 실행 (전체 서비스를 Docker 로 실행하고싶은 경우) 
+docker-compose up -d
+```
+
+
+```
+# DB 만 실행 (서버랑 웹 별도 실행 필요)
+docker-compose -f docker-compose-db.yml up -d
+```
+
+
+```
+# WEB 서버만 실행 (서버랑 db 별도 실행 필요)
+docker-compose -f docker-compose-web.yml up -d
+```
+
 
 <HR>
 
 ## 2. 초기 데이터 Init
 
-- Swagger or Curl
+- Swagger or Curl or Rest Client 을 사용하여 2-1 부터 2-3 까지 차례대로 진행
 
 ### 2-1) 유저 생성
 
-- http://localhost:3000/api#/users/UserController_createUser
-
-```agsl
+- Swagger Docs
+```
+http://localhost:3000/api#/users/UserController_createUser
+```
+- Curl
+```
 # username 필드 값 변경 가능
 curl -X 'POST' \
   'http://localhost:3000/users' \
   -H 'accept: application/json' \
   -H 'Content-Type: application/json' \
   -d '{
-  "username": "testuser1"
+  "username": "testUser1"
 }'
 ```
+- Rest Client
+```
+"http://localhost:3000/users", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: { username: testUser1 },
+    }
+```
+
 
 ### 2-2) 로그인 (JWT 토큰 취득)
 
-- http://localhost:3000/api#/auth/AuthController_login
+- Swaager Docs
+```
+http://localhost:3000/api#/auth/AuthController_login
+```
 
-```agsl
+- Crul
+```
 # 2-1에서 입력한 username
 curl -X 'POST' \
   'http://localhost:3000/auth/login' \
@@ -41,12 +74,28 @@ curl -X 'POST' \
   "username": "testUser1"
 }'
 ```
+- Rest Client
+```
+"http://localhost:3000/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: { username: testUser1 },
+    }
+```
 
 ### 2-3) 채팅방 생성
 
-- http://localhost:3000/api#/chatting-rooms/ChattingRoomController_createChattingRoom
+- Swagger Docs
+```
+http://localhost:3000/api#/chatting-rooms/ChattingRoomController_createChattingRoom
+```
 
-```agsl
+- Curl
+
+```
 # Authorization 값 : 2-2에서 획득한 토큰
 curl -X 'POST' \
   'http://localhost:3000/chatting-rooms' \
@@ -59,18 +108,39 @@ curl -X 'POST' \
 }''
 ```
 
+- Rest Client
+```
+"http://localhost:3000/chatting-rooms", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Authorization" : "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6InRlc3R1c2VyMSIsImRlc2NyaXB0aW9uIjoiIiwicHJvZmlsZVVybCI6bnVsbCwiZW1haWwiOm51bGwsInJvbGUiOiJVU0VSIiwiY3JlYXRlZEF0IjoiMjAyNC0wNy0xNFQwODo1NzoyMi44MzlaIiwidXBkYXRlZEF0IjoiMjAyNC0wNy0xNFQwODo1NzoyMi44MzlaIiwiZGVsZXRlZEF0IjpudWxsLCJpYXQiOjE3MjA5NDgyMjYsImV4cCI6MTcyMDk1MTgyNn0.rLBBqLjPhenC5oO2r1oayPmrXRq1XGRRwBJbPfsBS3w' \"
+      },
+      body: { username: testUser1 },
+    }
+```
+
 ## 3. 채팅 웹 사이트 접속
 
-```agsl
+```
+# Open AI  사용해서 생성
 http://localhost:3000
+
 ```
 
 <HR>
 
 # 테스트 케이스 동작
 
-```agsl
+```
+# JEST 이용시 
 jest --config ./apps/chatting-server/test/jest-e2e.json apps/chatting-server/test/ws/ws.service.e2e-spec.ts
+```
+
+```
+# npm script 이용시
+npm run test:e2e:chatting
 ```
 
 <HR>
