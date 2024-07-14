@@ -41,7 +41,8 @@ export class ChattingMessageController {
     description: "application/json.",
   })
   async createChattingMessage(
-    @Body() request: CreateChattingMessageRequestDto,
+    @Body(new ValidationPipe({ transform: true, whitelist: true }))
+    request: CreateChattingMessageRequestDto,
     @AuthUser() user: User,
   ): Promise<CreateChattingMessageResponseDto> {
     console.log(request, "createUser");
@@ -52,7 +53,7 @@ export class ChattingMessageController {
 
   @Get("chatting-messages")
   @ApiOperation({
-    summary: "채팅방 메시지 조회",
+    summary: "채팅방에 대한 채팅 메시지 전체 조회",
   })
   @ApiOkResponse({
     isArray: true,

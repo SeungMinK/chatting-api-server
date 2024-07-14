@@ -16,7 +16,7 @@ export class ChattingMessageEntity {
   @PrimaryGeneratedColumn("increment", { type: "bigint", unsigned: true })
   id: string;
 
-  @Column({ type: "varchar", length: 1024, comment: "메시지" })
+  @Column({ type: "varchar", length: 1024, comment: "채팅 메시지" })
   content: string;
 
   @ManyToOne(

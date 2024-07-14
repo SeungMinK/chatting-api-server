@@ -47,10 +47,10 @@ export class ChattingRoomController {
     description: "application/json.",
   })
   async createChattingRoom(
-    @Body() request: CreateChattingRoomRequestDto,
+    @Body(new ValidationPipe({ transform: true, whitelist: true }))
+    request: CreateChattingRoomRequestDto,
     @AuthUser() user: User,
   ): Promise<CreateChattingRoomResponseDto> {
-    console.log(request, "createUser");
     return this.chattingRoomService.createChattingRoom({
       ...request,
       requestUserId: user.id,
@@ -92,7 +92,6 @@ export class ChattingRoomController {
     @Param("chattingRoomId") chattingRoomId: string,
     @AuthUser() user: User,
   ): Promise<FindOneChattingRoomResponseDto> {
-    console.log("HI", user);
     return this.chattingRoomService.findOneChattingRoom({ id: chattingRoomId });
   }
 
@@ -107,7 +106,8 @@ export class ChattingRoomController {
   @Header("Content-Type", "application/json")
   async updateChattingRoom(
     @Param("chattingRoomId") chattingRoomId: string,
-    @Body() request: UpdateChattingRoomRequestDto,
+    @Body(new ValidationPipe({ transform: true, whitelist: true }))
+    request: UpdateChattingRoomRequestDto,
   ): Promise<UpdateChattingRoomResponseDto> {
     return this.chattingRoomService.updateChattingRoom(request);
   }

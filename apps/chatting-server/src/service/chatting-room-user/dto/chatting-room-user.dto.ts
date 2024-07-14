@@ -1,5 +1,7 @@
 import { IsDateString, IsString } from "class-validator";
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
+import { UserDto } from "../../user/dto/user.dto";
+import { ChattingRoomDto } from "../../chatting-room/dto/chatting-room.dto";
 
 export class ChattingRoomUserDto {
   @ApiProperty({
@@ -9,40 +11,14 @@ export class ChattingRoomUserDto {
   id: string;
 
   @ApiProperty({
-    example: "testUser1",
+    type: UserDto,
   })
-  @IsString()
-  title: string;
-
-  @ApiPropertyOptional({
-    example: "This is My Description",
-  })
-  @IsString()
-  description?: string;
-
-  @ApiPropertyOptional({
-    example: "https://chattingServer.png",
-  })
-  @IsString()
-  users?: string;
+  users: UserDto;
 
   @ApiProperty({
-    example: "testUser1@chatting.com",
+    type: ChattingRoomDto,
   })
-  @IsString()
-  chattingMessages?: string;
-
-  @ApiProperty({
-    example: "USER",
-  })
-  @IsString()
-  lastChattingMessage?: string;
-
-  @ApiProperty({
-    example: "USER",
-  })
-  @IsString()
-  createdBy: string;
+  chattingRoom: ChattingRoomDto;
 
   @ApiProperty({ example: "2021-01-23T16:57:35.977Z" })
   @IsDateString()

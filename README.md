@@ -67,6 +67,14 @@ http://localhost:3000
 
 <HR>
 
+# 테스트 케이스 동작
+
+```agsl
+jest --config ./apps/chatting-server/test/jest-e2e.json apps/chatting-server/test/ws/ws.service.e2e-spec.ts
+```
+
+<HR>
+
 # 서비스 구성도
 
 - 구현 기능이 많지 않고, 빠르게 구현 하기 위해 모노리틱 구조로 설계

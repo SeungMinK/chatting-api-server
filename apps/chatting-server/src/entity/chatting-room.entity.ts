@@ -34,20 +34,14 @@ export class ChattingRoomEntity {
   )
   chattingMessages: ChattingMessageEntity[];
 
-  // 실시간 갱신 데이터, DB에 저장 X
-  numActiveUsersHalfHour: number; // "최근 30분간 접속자 수"
-
-  // 실시간 갱신 데이터, DB에 저장 X
-  lastChattingMessage: ChattingMessageEntity;
+  @Column({ nullable: false, comment: "채팅방 생성자" })
+  createdBy: string;
 
   @CreateDateColumn()
   @Transform(({ value }) =>
     typeof value !== "string" ? value?.toISOString() : value,
   )
   createdAt: Date;
-
-  @Column({ length: 255, default: "", comment: "채팅방 생성자" })
-  createdBy: string;
 
   @UpdateDateColumn()
   @Transform(({ value }) =>
@@ -60,4 +54,10 @@ export class ChattingRoomEntity {
     typeof value !== "string" ? value?.toISOString() : value,
   )
   deletedAt: Date;
+
+  // 실시간 갱신 데이터, DB에 저장 X, 비즈니스 로직으로 데이터 Insert
+  numActiveUsersHalfHour: number; // "최근 30분간 접속자 수"
+
+  // 실시간 갱신 데이터, DB에 저장 X, 비즈니스 로직으로 데이터 Insert
+  lastChattingMessage: ChattingMessageEntity;
 }

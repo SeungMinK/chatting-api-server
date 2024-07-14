@@ -1,31 +1,27 @@
-import { IsNotEmpty, IsOptional, IsString, Length } from "class-validator";
-import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
+import { IsNotEmpty, IsString, Length } from "class-validator";
+import { ApiProperty } from "@nestjs/swagger";
 
 export class CreateChattingMessageRequestDto {
   @ApiProperty({
-    type: String,
-    example: "testUser1",
+    example: "채팅 메시지 예시",
   })
-  @Length(1, 32)
+  @Length(1, 1024)
   @IsString()
   @IsNotEmpty()
   content: string;
 
-  @ApiPropertyOptional({
-    type: String,
-    example: "testUser1",
+  @ApiProperty({
+    example: "1",
   })
-  @Length(1, 32)
   @IsString()
-  @IsOptional()
-  userId?: string;
+  @IsNotEmpty()
+  userId: string;
 
-  @ApiPropertyOptional({
+  @ApiProperty({
     type: String,
     example: "testUser1",
   })
-  @Length(1, 32)
   @IsString()
-  @IsOptional()
-  chattingRoomId?: string;
+  @IsNotEmpty()
+  chattingRoomId: string;
 }

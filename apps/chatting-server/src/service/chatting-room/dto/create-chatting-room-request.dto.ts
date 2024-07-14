@@ -3,8 +3,7 @@ import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 
 export class CreateChattingRoomRequestDto {
   @ApiProperty({
-    type: String,
-    example: "testUser1",
+    example: "채팅방 제목",
   })
   @Length(1, 32)
   @IsString()
@@ -12,13 +11,12 @@ export class CreateChattingRoomRequestDto {
   title: string;
 
   @ApiPropertyOptional({
-    type: String,
-    example: "testUser1",
+    example: "채팅방 설명",
   })
-  @Length(1, 32)
+  @Length(1, 255)
   @IsString()
   @IsOptional()
   description?: string;
 
-  requestUserId: string;
+  requestUserId: string; // 요청자 Id, Token 에 포함
 }
