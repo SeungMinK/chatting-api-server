@@ -32,14 +32,12 @@ export class ChattingRoomService {
 
     const createdAtCondition = new Date(Date.now() - 30 * 60 * 1000); // 30분 전 시간
 
-    existChattingRoom.chattingRoomUsers.filter(
+    const numActiveUsersHalfHours = existChattingRoom.chattingRoomUsers.filter(
       (value) => value.createdAt > createdAtCondition,
-    );
+    ); // filter 로 생성된 Array Return
 
-    existChattingRoom.numActiveUsersHalfHour =
-      existChattingRoom.chattingRoomUsers.length;
+    existChattingRoom.numActiveUsersHalfHour = numActiveUsersHalfHours.length;
 
-    console.log(existChattingRoom, "findOneChattingRoom", "existChattingRoom");
     if (!existChattingRoom) {
       throw new HttpException(
         {
