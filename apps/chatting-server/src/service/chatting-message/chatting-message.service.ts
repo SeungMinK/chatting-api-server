@@ -63,7 +63,7 @@ export class ChattingMessageService {
     }
 
     if (request.order) {
-      queryBuilder.orderBy(request.order);
+      queryBuilder.orderBy(`chatting_messages.${request.order}`);
     }
 
     const existChattingMessage = await queryBuilder.getMany();

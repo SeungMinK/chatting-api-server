@@ -77,7 +77,7 @@ export class ChattingRoomService {
     }
 
     if (request.order) {
-      queryBuilder.orderBy(request.order);
+      queryBuilder.orderBy(`chatting_rooms.${request.order}`);
     }
 
     let existChattingRoom = await queryBuilder.getMany();
