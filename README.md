@@ -125,7 +125,7 @@ curl -X 'POST' \
 
 ```
 # Open AI  사용해서 생성
-http://localhost:3000
+http://localhost
 
 ```
 
